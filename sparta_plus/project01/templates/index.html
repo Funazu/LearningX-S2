@@ -32,7 +32,7 @@
                         let temp_html = `
                          <div class="col-4 mb-2">
                              <div class="card">
-                                 <img src="https://thumb.viva.co.id/media/frontend/thumbs3/2021/11/02/6180df246a570-han-so-hee_1265_711.jpeg"
+                                 <img src="../static/bolo.jpg"
                                      class="card-img-top" alt="">
                                  <div class="card-body">
                                      <h5 class="card-title">${title}</h5>
@@ -58,7 +58,7 @@
             if (!content) {
                 return alert("Please!!, insert description")
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: "/diary",
