@@ -12,9 +12,13 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+
     <script>
         $(document).ready(function () {
             getData();
+            bsCustomFileInput.init()
         });
 
         function getData() {
@@ -32,7 +36,7 @@
                         let temp_html = `
                          <div class="col-4 mb-2">
                              <div class="card">
-                                 <img src="../static/bolo.jpg"
+                                 <img src="../static/space.png"
                                      class="card-img-top" alt="">
                                  <div class="card-body">
                                      <h5 class="card-title">${title}</h5>
@@ -59,13 +63,20 @@
                 return alert("Please!!, insert description")
             }
 
+            let file = $('#image-satu').prop('files')[0];
+
+            let form_data = new FormData();
+
+            form_data.append('file', file)
+            form_data.append('title', title)
+            form_data.append('content', content)
+
             $.ajax({
                 type: "POST",
                 url: "/diary",
-                data: {
-                    title: title,
-                    content: content
-                },
+                data: form_data,
+                contentType: false,
+                processData: false,
                 success: function(response) {
                     // console.log(response);
                     alert("Data Berhasil Ditambahkan")
@@ -82,8 +93,8 @@
         <div class="p-5 mb-4 bg-light rounded-3">
             <div class="container-fluid py-5">
                 <h1 class="display-5 fw-bold">Personal Diary</h1>
-                <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="inputGroupFile01">
+                <div class="input-group mb-3 custom-file">
+                    <input type="file" class="form-control" id="image-satu">
                 </div>
 
                 <div class="input-group mb-3">
