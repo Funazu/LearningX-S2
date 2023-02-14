@@ -34,7 +34,7 @@ def save_diary():
 
     today = datetime.now()
     time = today.strftime('%Y-%m-%d-%H-%M-%S')
-    timenow = today.strftime('%Y.m.%d')
+    timenow = today.strftime('%Y.%m.%d')
 
     file = request.files['file']
     extension = file.filename.split('.')[-1]
