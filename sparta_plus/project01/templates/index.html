@@ -32,13 +32,14 @@
                     for (let i = 0; i < data.length; i++) {
                         let title = data[i]['title']
                         let content = data[i]['content']
-                        
+                        let file = data[i]['file'] || 'space.png';
+                        let profile = data[i]['profile']
                         let temp_html = `
                          <div class="col-4 mb-2">
                              <div class="card">
-                                 <img src="../static/space.png"
-                                     class="card-img-top" alt="">
+                                 <img src="../static/${file}"class="card-img-top" alt="">
                                  <div class="card-body">
+                                     <img src="../static/${profile}" style="border-radius: 50%; width: 55px;" alt="">
                                      <h5 class="card-title">${title}</h5>
                                      <p class="card-text">${content}</p>
                                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -64,12 +65,14 @@
             }
 
             let file = $('#image-satu').prop('files')[0];
+            let profile = $('#image-dua').prop('files')[0];
 
             let form_data = new FormData();
 
             form_data.append('file', file)
             form_data.append('title', title)
             form_data.append('content', content)
+            form_data.append('profile', profile)
 
             $.ajax({
                 type: "POST",
@@ -95,6 +98,9 @@
                 <h1 class="display-5 fw-bold">Personal Diary</h1>
                 <div class="input-group mb-3 custom-file">
                     <input type="file" class="form-control" id="image-satu">
+                </div>
+                <div class="input-group mb-3 custom-file">
+                    <input type="file" class="form-control" id="image-dua">
                 </div>
 
                 <div class="input-group mb-3">
