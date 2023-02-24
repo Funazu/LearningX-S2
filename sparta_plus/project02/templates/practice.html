@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,27 +8,36 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             perform_query();
         });
 
         function perform_query() {
             let word = 'apple';
             let api_key = "103a0d3f-95c5-494e-b411-b3c24ed4a005";
-
-            let url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${api_key}`;
+            let root_url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json';
+            let final_url = `${root_url}/${word}?key=${api_key}`;
             $.ajax({
-                type: "GET",
-                url: url,
+                type: 'GET',
+                url: final_url,
                 data: {},
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
+                    let definitions = response[0].shortdef;
+                    let temp_html = '';
+                    for (let i = 0; i < definitions.length; i++) {
+                        let def = definitions[i];
+                        temp_html += `<li>${def}</li>`;
+                    }
+                    $('#definitions').append(temp_html);
                 }
-            })
+            });
         }
     </script>
 </head>
+
 <body>
-    
+    <ul id="definitions"></ul>
 </body>
+
 </html>
