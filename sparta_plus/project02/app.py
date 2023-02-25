@@ -13,7 +13,18 @@ db = client.dbsparta
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    words_result = db.words.find({}, {'_id': False})
+    words = []
+    for word in words_result:
+        definition = word['definitions'][0]['shortdef']
+        definition = definition if type(definition) is str else definition[0]
+        words.append({
+            'word': word['word'],
+            'definition': definition,
+        })
+    
+    msg = request.args.get('msg')
+    return render_template('index.html', words=words, msg=msg)
 
 @app.route('/detail/<keyword>')
 def detail(keyword):
@@ -21,6 +32,20 @@ def detail(keyword):
     url = f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/{keyword}?key={api_key}'
     response = requests.get(url)
     definitions = response.json()
+
+    if not definitions:
+        return redirect(url_for(
+            'main',
+            msg=f'Could not find the word, "{keyword}"'
+        ))
+    
+    if type (definitions[0]) is str:
+        suggestions = ', '.join(definitions)
+        return redirect(url_for(
+            'main',
+            msg=f'Could not find the word, "{keyword}", did you mean one of these words: {suggestions}'
+        ))
+
     status = request.args.get('status_give', 'new')
     return render_template(
         'detail.html',
@@ -57,6 +82,12 @@ def delete_word():
         'result': 'success',
         'msg': f'the word, {word}, was deleted'
     })
+
+@app.route('/error')
+def error():
+    return render_template(
+        
+    )
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

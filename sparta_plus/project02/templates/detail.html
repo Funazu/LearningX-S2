@@ -8,47 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <style>
-        .wrap {
-            background-color: RGBA(232, 52, 78, 0.2);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-        .banner {
-            width: 100%;    
-            height: 200px;
-            background-color: white;
-            background-image: url('{{ url_for("static", filename="notebook.png") }}');
-            background-position: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-            cursor: pointer;
-        }
-        .container {
-            width: 80%;
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid grey;
-            border-radius: 10px;
-        }
-        span.exampel {
-            color: gray;
-            font-size: 14px;
-        }
-        .btn-sparta {
-            color: white;
-            background-color: #e8344e;
-            border: 1px solid #e8344e;
-        }
-        .btn-sparta-outline {
-            color: #e8344e;
-            background-color: transparent;
-            background-image: none;
-            border: 1px solid #e8344e;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')  }}">
 
     <script>
         let word = '{{ word }}';
