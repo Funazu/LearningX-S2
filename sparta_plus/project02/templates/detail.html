@@ -15,6 +15,7 @@
 
         $(document).ready(function() {
             // get_definitions()
+            get_examples();
         });
 
         function get_definitions() {
@@ -106,6 +107,71 @@
                 }
             })
         }
+
+        function get_examples() {
+            let list = $("#example-list");
+            list.empty()
+            $.ajax({
+                type: "GET",
+                url: `/api/get_exs?word=${word}`,
+                data: {},
+                success: function(response) {
+                    console.log(response);
+                    let temp_html = '';
+                    if (response.result === 'success') {
+                        let examples = response.examples;
+                        for (let i = 0; i < examples.length; i++) {
+                            let example = examples[i];
+                            let id = example.id;
+                            let sentence = example.example;
+
+                            temp_html += `
+                            <li>${sentence}&nbsp;&nbsp;&nbsp;<a href="javascript:delete_ex('${id}')">delete</a></li>
+                            `;
+                        }
+                        list.append(temp_html)
+                    }
+                }
+            })
+        }
+
+        function add_ex() {
+            let new_ex = $('#new-example').val();
+            console.log(new_ex)
+            $.ajax({
+                type: "POST",
+                url: "/api/save_ex",
+                data: {
+                    example: new_ex,
+                    word: word,
+                },
+                success: function(response) {
+                    console.log(response)
+                    if (response.result === 'success') {
+                        alert(response.msg);
+                        get_examples();
+                    }
+                }
+            })
+        }
+
+        function delete_ex(id) {
+            console.log("deleting", id)
+            $.ajax({
+                type: "POST",
+                url: `/api/delete_ex`,
+                data: {
+                    word: word,
+                    id: id,
+                },
+                success: function(response) {
+                    if (response.result === 'success') {
+                        alert(response.msg);
+                        get_examples();
+                    }
+                }
+            })
+        }
     </script>
 </head>
 
@@ -148,6 +214,15 @@
                 <button onclick="save_word()" id="btn-save" class="btn btn-sparta-outline btn-lg">SAVE</button>
             {% else %}
                 <button onclick="delete_word()" id="btn-delete" class="btn btn-sparta btn-lg">DELETE</button>
+
+                <div class="container" id="examples">
+                    <h3 style="text-align: center; margin-bottom: 1rem;">Write your own sentences!</h3>
+                    <ul id="example-list"></ul>
+                    <div class="d-flex justify-content-beetwen" style="margin-left: 20px">
+                        <input type="text" id="new-example" class="form-control form-control-sm" style="margin: 0 8px 0 0">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
+                    </div>
+                </div>
             {% endif %}
         </div>
 
