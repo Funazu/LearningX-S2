@@ -35,15 +35,15 @@ def detail(keyword):
 
     if not definitions:
         return redirect(url_for(
-            'main',
-            msg=f'Could not find the word, "{keyword}"'
+            'error',
+            word=keyword
         ))
     
     if type (definitions[0]) is str:
-        suggestions = ', '.join(definitions)
         return redirect(url_for(
-            'main',
-            msg=f'Could not find the word, "{keyword}", did you mean one of these words: {suggestions}'
+            'error',
+            word=keyword,
+            suggestions=','.join(definitions)
         ))
 
     status = request.args.get('status_give', 'new')
@@ -85,8 +85,14 @@ def delete_word():
 
 @app.route('/error')
 def error():
+    word = request.args.get('word')
+    suggestions = request.args.get('suggestions')
+    if suggestions:
+        suggestions = suggestions.split(',')
     return render_template(
-        
+        'error.html', 
+        word=word,
+        suggestions=suggestions
     )
 
 if __name__ == '__main__':

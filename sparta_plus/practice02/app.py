@@ -8,6 +8,11 @@ def main():
     name = "Naja"
     return render_template('index.html', name=name)
 
+@app.route('/test-wulan')
+def wulan():
+    name = "Julia Wulandari"
+    return render_template('test-lan.html', name=name)
+
 @app.route('/detail/<keyword>')
 def detail(keyword):
     return render_template('detail.html', keyword=keyword)
