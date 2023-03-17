@@ -20,6 +20,13 @@ db = client.dbsparta
 def main():
     return render_template('index.html')
 
+@app.route('/restaurants', methods=['GET'])
+def get_restaurants():
+    return jsonify({
+        'result': 'success',
+        'restaurants': [],
+    })
+
 @app.route('/map')
 def map_example():
     return render_template('prac_map.html')
