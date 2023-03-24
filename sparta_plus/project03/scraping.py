@@ -70,7 +70,7 @@ for _ in range(5):
             'center': center
         }
 
-        db.restaurants.insert_one(doc)
+        db.restaurants_liaa.insert_one(doc)
     
     start += 10
     driver.get(f'{url}&start={start}')
