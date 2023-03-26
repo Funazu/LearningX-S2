@@ -6,3 +6,7 @@ TUGAS RANDOM CHECKPOINT (week12) = app.py (route: /map)
 TUGAS SPACEX (week13) = homework_launch.py
 
 TUGAS RESTAURANT DELETE & POST (week 14) = app.py (route: /)
+
+TUGAS AKHIR (week 15):
+Live Site : https://restaurant-fauzunnaja.glitch.me
+Live Code : https://glitch.com/edit/#!/restaurant-fauzunnaja
