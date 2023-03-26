@@ -1,3 +1,4 @@
+from math import radians, cos, sin, asin, sqrt
 import requests
 
 main_url = 'https://api.spacexdata.com/v4/launches'
@@ -35,7 +36,34 @@ for launche in launches_data:
     mapbox_response = requests.get(mapbox_url)
     mapbox_json = mapbox_response.json()
 
+    coordinate = mapbox_json['features'][0]['geometry']['coordinates']
+    lat2 = coordinate[0]
+    lon2 = coordinate[1]    
+    
 
-    print(mapbox_json)
-    # print(full_name, lat1, lon1)
-    # print(launchpadid)
+    # Kalkulasi Masseh
+    def distance(lat1, lat2, lon1, lon2):
+        # Modul matematika bermuat fungsi bernama
+        # radian yang mengonversi dari derajat ke radian.
+        lon1 = radians(lon1)
+        lon2 = radians(lon2)
+        lat1 = radians(lat1)
+        lat2 = radians(lat2)
+        
+        # formula Haversine
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    
+        c = 2 * asin(sqrt(a))
+        
+        # Radius bumi dalam kilometer. Gunakan 3956 untuk mil
+        r = 6371
+        
+        # kalkulasikan hasil
+        return(c * r)
+
+        
+    # HASILL AHAHAHA
+    date = launche['date']
+    print(date, full_name, distance(lat1, lat2, lon1, lon2))

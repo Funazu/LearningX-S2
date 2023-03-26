@@ -1,0 +1,6 @@
+TUGAS SCRAPING REQUESTS (week11) = homeowrk_requests.py
+TUGAS SCRAPING SELENIUM (week11) = homeowrk_selenium.py
+
+TUGAS RANDOM CHECKPOINT (week12) = app.py (route: /map)
+
+TUGAS SPACEX (week13) = homework_launch.py
