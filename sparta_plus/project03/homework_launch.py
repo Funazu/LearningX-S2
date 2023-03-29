@@ -9,9 +9,20 @@ access_token = 'pk.eyJ1IjoiZmF1enVubmFqYSIsImEiOiJjbGZidHRneXYwajBwM3ptZXZpdXlvM
 
 launches_data = []
 
-for launches in launches_json:
-    launchpadid = launches['launchpad']
-    date = launches['date_utc']
+# for launches in launches_json:
+#     launchpadid = launches['launchpad']
+#     date = launches['date_utc']
+
+#     data = {
+#         'launchpadid': launchpadid,
+#         'date': date
+#     }
+
+#     launches_data.append(data)
+
+for i in range(len(launches_json) - 1, len(launches_json) - 21, -1):
+    launchpadid = launches_json[i]['launchpad']
+    date = launches_json[i]['date_utc']
 
     data = {
         'launchpadid': launchpadid,
@@ -19,7 +30,6 @@ for launches in launches_json:
     }
 
     launches_data.append(data)
-
 
 for launche in launches_data:
     launchpadid = launche['launchpadid']
@@ -66,4 +76,4 @@ for launche in launches_data:
         
     # HASILL AHAHAHA
     date = launche['date']
-    print(date, full_name, distance(lat1, lat2, lon1, lon2))
+    print(date, full_name, distance(lat1, lat2, lon1, lon2))  
