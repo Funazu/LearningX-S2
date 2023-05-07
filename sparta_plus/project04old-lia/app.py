@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 MONGODB_CONNECTION_STRING = 'mongodb+srv://fauzunnaja:kamukepodeh@cluster0.kwi1dlp.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(MONGODB_CONNECTION_STRING)
-db = client.dbsparta
+db = client.dbliaa
 
 SECRET_KEY = 'N4'
 
@@ -72,8 +72,6 @@ def api_register():
         # Kondisi dimana id sudah ada di database
         return jsonify({'result': 'fail', 'msg': f'An account with id {id_receive} already exists, Please login!'})
     
-    
-
 
 @app.route("/api/login", methods=["POST"])
 def api_login():
