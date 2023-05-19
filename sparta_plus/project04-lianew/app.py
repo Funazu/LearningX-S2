@@ -17,11 +17,11 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = './static/profile_pics'
 
-SECRET_KEY = 'N4'
+SECRET_KEY = "SPARTA"
 
-MONGODB_CONNECTION_STRING = 'mongodb+srv://fauzunnaja:kamukepodeh@cluster0.kwi1dlp.mongodb.net/?retryWrites=true&w=majority'
+MONGODB_CONNECTION_STRING = 'mongodb+srv://admin:admin@cluster0.pxs1kpn.mongodb.net/test'
 client = MongoClient(MONGODB_CONNECTION_STRING)
-db = client.dbsparta
+db = client.dbsparta_sweeter
 
 TOKEN_KEY = 'mytoken'
 
@@ -114,7 +114,7 @@ def sign_up():
         "password": password_hash,                                 
         "profile_name": username_receive,                          
         "profile_pic": "",                                         
-        "profile_pic_real": "profile_pics/default-profile.jpg", 
+        "profile_pic_real": "profile_pics/default-profile.png", 
         "profile_info": ""                                       
     }
     db.users.insert_one(doc)
