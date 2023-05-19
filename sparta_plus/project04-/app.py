@@ -215,13 +215,33 @@ def get_posts():
             
         for post in posts:
             post['_id'] = str(post['_id'])
+
             post['count_heart'] = db.likes.count_documents({
                 'post_id': post['_id'],
                 'type': 'heart',
             })
+            post['count_star'] = db.stars.count_documents({
+                'post_id': post['_id'],
+                'type': 'star',
+            })
+            post['count_thumbs'] = db.thumbs.count_documents({
+                'post_id': post['_id'],
+                'type': 'thumbs',
+            })
+
             post['heart_by_me'] = bool(db.likes.find_one({
                 'post_id': post['_id'],
                 'type': 'heart',
+                'username': payload.get('id')
+            }))
+            post['star_by_me'] = bool(db.stars.find_one({
+                'post_id': post['_id'],
+                'type': 'star',
+                'username': payload.get('id')
+            }))
+            post['thumbs_by_me'] = bool(db.thumbs.find_one({
+                'post_id': post['_id'],
+                'type': 'thumbs',
                 'username': payload.get('id')
             }))
         return jsonify({
@@ -256,6 +276,78 @@ def update_like():
             db.likes.delete_one(doc)
 
         count = db.likes.count_documents({
+            'post_id': post_id_receive,
+            'type': type_receive,
+        })
+
+        return jsonify({
+            'result': 'success',
+            'msg': 'updated!',
+            'count': count
+        })
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home'))
+    
+@app.route('/update_star', methods=['POST'])
+def update_star():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        user_info = db.users.find_one({'username': payload.get('id')})
+        post_id_receive = request.form.get('post_id_give')
+        type_receive = request.form.get('type_give')
+        action_reveive = request.form.get('action_give')
+        doc = {
+            'post_id': post_id_receive,
+            'username': user_info.get('username'),
+            'type': type_receive
+        }
+        if action_reveive == 'star':
+            db.stars.insert_one(doc)
+        else:
+            db.stars.delete_one(doc)
+
+        count = db.stars.count_documents({
+            'post_id': post_id_receive,
+            'type': type_receive,
+        })
+
+        return jsonify({
+            'result': 'success',
+            'msg': 'updated!',
+            'count': count
+        })
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home'))
+    
+@app.route('/update_thumbs', methods=['POST'])
+def update_thumbs():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        user_info = db.users.find_one({'username': payload.get('id')})
+        post_id_receive = request.form.get('post_id_give')
+        type_receive = request.form.get('type_give')
+        action_reveive = request.form.get('action_give')
+        doc = {
+            'post_id': post_id_receive,
+            'username': user_info.get('username'),
+            'type': type_receive
+        }
+        if action_reveive == 'thumbs':
+            db.thumbs.insert_one(doc)
+        else:
+            db.thumbs.delete_one(doc)
+
+        count = db.thumbs.count_documents({
             'post_id': post_id_receive,
             'type': type_receive,
         })

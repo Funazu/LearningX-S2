@@ -70,6 +70,9 @@ function get_post(username) {
                     let time_before = time2str(time_post);
 
                     let class_heart = post['heart_by_me'] ? 'fa-heart' : 'fa-heart-o';
+                    let class_star = post['star_by_me'] ? 'fa-star' : 'fa-star-o';
+                    let class_thumbs = post['thumbs_by_me'] ? 'fa-thumbs-up' : 'fa-thumbs-o-up';
+                    
                     let html_temp = `
                     <div class="box" id="${post['_id']}">
                         <article class="media">
@@ -92,6 +95,16 @@ function get_post(username) {
                                         <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
                                             <span class="icon is-small"><i class="fa ${class_heart}"
                                                     aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_heart'])}</span>
+                                        </a>
+
+                                        <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                                            <span class="icon is-small"><i class="fa ${class_star}"
+                                                    aria-hidden="true"></i></span>&nbsp;<span class="star-num">${num2str(post['count_star'])}</span>
+                                        </a>
+
+                                        <a class="level-item is-sparta" aria-label="thumbs" onclick="toggle_thumbs('${post["_id"]}', 'thumbs')">
+                                            <span class="icon is-small"><i class="fa ${class_thumbs}"
+                                                    aria-hidden="true"></i></span>&nbsp;<span class="thumbs-num">${num2str(post['count_thumbs'])}</span>
                                         </a>
                                     </div>
                                 </nav>
@@ -135,6 +148,74 @@ function toggle_like(post_id, type) {
             success: function (response) {
                 $i_like.addClass('fa-heart').removeClass('fa-heart-o')
                 $a_like.find('span.like-num').text(num2str(response['count']));
+            }
+        })
+    }
+}
+
+function toggle_star(post_id, type) {
+    let $a_star = $(`#${post_id} a[aria-label='star']`)
+    let $i_star = $a_star.find('i');
+    if ($i_star.hasClass('fa-star')) {
+        $.ajax({
+            type: 'POST',
+            url: '/update_star',
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: 'unstar',
+            },
+            success: function (response) {
+                $i_star.addClass('fa-star-o').removeClass('fa-star')
+                $a_star.find('span.star-num').text(num2str(response['count']));
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/update_star',
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: 'star',
+            },
+            success: function (response) {
+                $i_star.addClass('fa-star').removeClass('fa-star-o')
+                $a_star.find('span.star-num').text(num2str(response['count']));
+            }
+        })
+    }
+}
+
+function toggle_thumbs(post_id, type) {
+    let $a_thumbs = $(`#${post_id} a[aria-label='thumbs']`)
+    let $i_thumbs = $a_thumbs.find('i');
+    if ($i_thumbs.hasClass('fa-thumbs-up')) {
+        $.ajax({
+            type: 'POST',
+            url: '/update_thumbs',
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: 'unthumbs',
+            },
+            success: function (response) {
+                $i_thumbs.addClass('fa-thumbs-o-up').removeClass('fa-thumbs-up')
+                $a_thumbs.find('span.thumbs-num').text(num2str(response['count']));
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/update_thumbs',
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: 'thumbs',
+            },
+            success: function (response) {
+                $i_thumbs.addClass('fa-thumbs-up').removeClass('fa-thumbs-o-up')
+                $a_thumbs.find('span.thumbs-num').text(num2str(response['count']));
             }
         })
     }
